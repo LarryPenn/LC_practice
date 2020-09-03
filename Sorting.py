@@ -53,3 +53,44 @@ class Solution:
             
         return result
                 
+
+//34. Find First and Last Position of Element in Sorted Array
+//https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        
+        low = 0
+        high = len(nums)-1
+        mid = int((low+high)/2)
+        res = -1
+        if len(nums) == 1 and target == nums[0]:
+            return [0,0]
+        
+        while low < high :
+            if nums[mid] > target:
+                high = mid
+                mid = int((low+high)/2)
+            elif nums[mid] < target:
+                low = mid + 1
+                mid = int((low+high)/2) 
+            else:
+                i = 0
+                while mid - i >=0 and nums[mid-i] == target:
+                    i += 1
+                j = 0
+                while mid + j < len(nums) and nums[mid + j] == target:
+                    j += 1
+                return [mid - i + 1, mid + j -1]
+            
+        if low == high and nums[low] == target:
+            return [low, high]
+        
+        return [-1, -1]
+            
+                
