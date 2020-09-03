@@ -94,3 +94,27 @@ class Solution(object):
         return [-1, -1]
             
                 
+//https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/803/
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        
+        intervals.sort()
+        if len(intervals) < 2:
+            return intervals
+        
+        i = 0
+        
+        while i + 1 < len(intervals):
+            if intervals[i][1] >= intervals[i+1][0]:
+                intervals[i+1] = [min(intervals[i][0], intervals[i+1][0]), max(intervals[i+1][1], intervals[i][1])]
+                intervals.pop(i)
+                print(i)
+                i = i - 1
+            i += 1
+        
+        return intervals
