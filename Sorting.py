@@ -118,3 +118,75 @@ class Solution(object):
             i += 1
         
         return intervals
+
+
+https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/804/
+
+
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        
+        def searchPivot(nums):
+            lo = 0
+            hi = len(nums) - 1
+            mid = (lo + hi) // 2
+            
+            while lo < hi:
+                if nums[mid + 1] < nums[mid]:
+                    return mid + 1
+                if nums[mid] > nums[hi]:
+                    lo = mid
+                    mid = (lo + hi) // 2
+                else:
+                    hi = mid
+                    mid = (lo + hi) // 2
+            
+            return 0 
+                
+        
+        if len(nums) == 0:
+            return -1
+        
+        if len(nums) == 1:
+            if target == nums[0]:
+                return 0
+            else:
+                return -1
+            
+        pivot = searchPivot(nums)
+        print(pivot)
+        
+        arr = nums[pivot:]
+        if pivot > 0:
+            arr += nums[:pivot]
+        
+        #print(arr)
+        
+        lo = 0
+        hi = len(arr)-1
+        mid = (lo + hi) // 2
+        #print(lo, mid, hi)
+        
+        while lo <= hi:
+            print(arr[mid], target)
+            if arr[mid] == target:
+                return (mid + pivot)%len(arr)
+            elif arr[mid] < target:
+                lo = mid + 1
+                mid = (lo + hi) //2
+                
+            else:
+                hi = mid - 1
+                mid = (lo + hi) //2
+                
+        return -1
+        
+        
+    
+        
+        
