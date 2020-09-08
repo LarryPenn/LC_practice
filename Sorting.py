@@ -187,6 +187,86 @@ class Solution(object):
         return -1
         
         
-    
+ //https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/805/   
+        
+class Solution(object):
+    def minMeetingRooms(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: int
+        """
+        # sort the array based on finish time
+        # iterate from left to right and add to existing room if no conflict, and create a new room if there is a conflict. Use a dictionary to store room number (key), meeting (value) pairs
+        
+        def intersect(range1, range2):
+            if range1[0] < range2[0] and range1[1] <= range2[0]:
+                return False
+            if range1[0] >= range2[1] and range1[0] > range2[0]:
+                return False
+            return True
+        
+        
+        print(intersect([0,30], [5, 10]))
+        intervals.sort(key = lambda x:x[0])
+        
+        rooms = {}
+        
+        for interval in intervals:
+            if not rooms:
+                rooms['1'] = [interval]
+            else: 
+                inserted = False
+                for key in rooms:
+                    flag = False
+                    for timeslot in rooms[key]:
+                        if intersect(timeslot, interval):
+                            flag = True
+                    if not flag:
+                        rooms[key].append(interval)
+                        inserted = True
+                        break;
+                if not inserted:
+                    rooms[len(rooms.keys()) + 1] = [interval]
+
+        print(rooms)
+        
+        return len(rooms.keys())
+
+https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/806/
+
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        
+        def binarySearch(arr, target):
+            lo = 0
+            hi = len(arr) - 1
+            
+            while lo <= hi:
+                mid = (lo + hi) // 2
+                if target == arr[mid]:
+                    return True
+                elif target < arr[mid]:
+                    hi = mid - 1
+                else: 
+                    lo = mid + 1
+            
+            return False
+        
+        
+        result = False
+        for array in matrix:
+            if len(array) == 0:
+                continue
+            if array[0] <= target and array[-1] >= target:
+                if binarySearch(array, target):
+                    result = True
+                    break
+        
+        return result
         
         
